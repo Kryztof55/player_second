@@ -1,0 +1,41 @@
+@import './variables.scss';
+body{
+    background-color: $color-night;
+}
+
+/* Resets */
+
+figure{
+    margin: 0;
+}
+input{
+    background-color: transparent;
+    padding: 5px;
+    border: solid 1px $color-gray;
+    display: block;
+    border-radius: 5px;
+    width: 100%;
+    @include transition();
+    &:focus{
+        outline: none;
+        border-color: $color-dark-aqua;
+    }
+}
+button{
+    background: none;
+    border: 0;
+    &:focus{
+        outline: none;
+    }
+
+}
+hr{
+    border-color:$color-night-aqua;
+    margin:{
+        top:40px;
+        bottom: 40px;
+    }
+    
+    
+    
+}
