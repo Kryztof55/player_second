@@ -1,0 +1,21 @@
+@import '../../../scss/variables.scss';
+.controls{
+    width: 280px;
+    margin: 0 auto;
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-columns: 30px 1fr 1fr 1fr 30px;
+}
+@media #{$n-tablet}{
+
+}
+@media #{$n-portrait}{
+
+}
+@media #{$n-desktop}{
+    
+}
+@media #{$n-full}{
+    
+}

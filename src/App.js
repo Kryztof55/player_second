@@ -9,8 +9,15 @@ import logo from './logo.svg';
 
 import Header from './components/moleculas/headerRep/headerRep'
 import HeaderBuscador from './components/moleculas/headBuscador/headBuscador';
-import Player from './components/organismos/player/player';
-import Test from './components/atomos/testredux/test'
+import PortadaCurrent from './components/organismos/portadaCurrent/portadaCurrent';
+import Controls from './components/organismos/controls/controls'
+import BtnAdelante from './components/atomos/btnAdelante/btnAdelante';
+import BtnAtras from './components/atomos/btnAtras/btnAtras';
+import BtnPlay from './components/atomos/btnPlay/btnPlay';
+import BtnRandom from './components/atomos/btnRandom/btnRandom'
+
+import Test from './components/atomos/testredux/test';
+
 import './App.css';
 import './scss/configurations.scss';
 
@@ -26,6 +33,7 @@ class  App extends Component {
       trackName: "Track Name",
       artistName: "Artist Name",
       albumName: "Album Name",
+      albumImg: "",
       playing: false,
       position: 0,
       duration: 0,
@@ -54,7 +62,7 @@ class  App extends Component {
     if (window.Spotify !== null) {
       clearInterval(this.playerCheckInterval);
       this.player = new window.Spotify.Player({
-        name: "Matt's Spotify Player",
+        name: "Kryztof's Spotify Player",
         getOAuthToken: cb => { cb(token); },
       });
      this.createEventHandlers();
@@ -84,8 +92,8 @@ class  App extends Component {
     });
   }
   onStateChanged(state) {
-    // if we're no longer listening to music, we'll get a null state.
     if (state !== null) {
+      
       const {
         current_track: currentTrack,
         position,
@@ -93,6 +101,7 @@ class  App extends Component {
       } = state.track_window;
       const trackName = currentTrack.name;
       const albumName = currentTrack.album.name;
+      const albumImg = currentTrack.album.images[0].url;
       const artistName = currentTrack.artists
         .map(artist => artist.name)
         .join(", ");
@@ -103,8 +112,10 @@ class  App extends Component {
         trackName,
         albumName,
         artistName,
+        albumImg,
         playing
       });
+
     }
   }
   onPrevClick() {
@@ -116,6 +127,7 @@ class  App extends Component {
   }
   
   onNextClick() {
+    console.log("next")
     this.player.nextTrack();
   }
   transferPlaybackHere() {
@@ -128,7 +140,7 @@ class  App extends Component {
       },
       body: JSON.stringify({
         "device_ids": [ deviceId ],
-        "play": false,
+        "play": false, // true para reporducir aquí
       }),
     });
   }
@@ -139,6 +151,7 @@ class  App extends Component {
       artistName,
       trackName,
       albumName,
+      albumImg,
       error,
       position,
       duration,
@@ -165,17 +178,17 @@ class  App extends Component {
             <React.Fragment>
               <Test/>
               <HeaderBuscador/>
-              <div>
-                <p>Artist: {artistName}</p>
-                <p>Track: {trackName}</p>
-                <p>Album: {albumName}</p>
-                <p>
-                  <button onClick={() => this.onPrevClick()}>Previous</button>
-                  <button onClick={() => this.onPlayClick()}>{playing ? "Pause" : "Play"}</button>
-                  <button onClick={() => this.onNextClick()}>Next</button>
-                </p> 
+              <div className="container">
+                <PortadaCurrent artistName={this.state.artistName} albumName={this.state.albumName} albumImg={this.state.albumImg} trackName={this.state.trackName} />
+                <Controls>
+                  <BtnRandom />
+                  <BtnAtras onClick={(e) => this.onPrevClick(e)}/> 
+                  <BtnPlay onClick={(e) => this.onPlayClick(e)}>{playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>} </BtnPlay>
+                  <BtnAdelante onClick={(e) => this.onNextClick(e)}/>
+                </Controls>
               </div>
-              <Player/>
+              
+
           </React.Fragment>
         )}
       </div>

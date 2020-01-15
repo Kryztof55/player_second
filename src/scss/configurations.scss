@@ -24,6 +24,7 @@ input{
 button{
     background: none;
     border: 0;
+    cursor: pointer;
     &:focus{
         outline: none;
     }
@@ -37,5 +38,37 @@ hr{
     }
     
     
+    
+}
+/* Containers */
+.container{
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    padding: {
+        top: 50px;
+        bottom: 50px;
+    };
+}
+
+@media #{$n-tablet}{
+    .container{
+        width: calc(100% - 180px);
+        margin: 0 auto;
+        padding: {
+            top: 100px;
+            bottom: 100px;
+        };
+    }
+}
+@media #{$n-portrait}{
+    .container{
+        width: 980px;
+        margin: 0 auto;
+    }
+}
+@media #{$n-desktop}{
+    
+}
+@media #{$n-full}{
     
 }
