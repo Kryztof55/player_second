@@ -34,6 +34,7 @@ class  App extends Component {
       artistName: "Artist Name",
       albumName: "Album Name",
       albumImg: "",
+      shuffle:false,
       playing: false,
       position: 0,
       duration: 0,
@@ -130,6 +131,29 @@ class  App extends Component {
     console.log("next")
     this.player.nextTrack();
   }
+  onRandom(){
+    const { deviceId, token } = this.state;
+    if(this.state.shuffle == false){
+      fetch("https://api.spotify.com/v1/me/player/shuffle?state=true", {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      });
+      this.setState({shuffle: true})
+    }
+    else {
+      fetch("https://api.spotify.com/v1/me/player/shuffle?state=false", {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        }
+      });
+      this.setState({shuffle: false})
+    }
+  }
   transferPlaybackHere() {
     const { deviceId, token } = this.state;
     fetch("https://api.spotify.com/v1/me/player", {
@@ -156,6 +180,7 @@ class  App extends Component {
       position,
       duration,
       playing,
+      shuffle
 
     } = this.state;
     return (
@@ -181,7 +206,7 @@ class  App extends Component {
               <div className="container">
                 <PortadaCurrent artistName={this.state.artistName} albumName={this.state.albumName} albumImg={this.state.albumImg} trackName={this.state.trackName} />
                 <Controls>
-                  <BtnRandom />
+                  <BtnRandom className={shuffle==true ? "active" : "noActive"} onClick={(e) => this.onRandom(e)}/>
                   <BtnAtras onClick={(e) => this.onPrevClick(e)}/> 
                   <BtnPlay onClick={(e) => this.onPlayClick(e)}>{playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>} </BtnPlay>
                   <BtnAdelante onClick={(e) => this.onNextClick(e)}/>
