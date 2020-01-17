@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import store from './store';
 import {Provider} from 'react-redux';
 
+
 import { authEndpoint, clientId, redirectUri, scopes } from "./config";
 import hash from "./hash.js";
 import logo from './logo.svg';
@@ -15,6 +16,9 @@ import BtnAdelante from './components/atomos/btnAdelante/btnAdelante';
 import BtnAtras from './components/atomos/btnAtras/btnAtras';
 import BtnPlay from './components/atomos/btnPlay/btnPlay';
 import BtnRandom from './components/atomos/btnRandom/btnRandom'
+import Listas from './components/organismos/listas/lista'
+
+
 
 import Test from './components/atomos/testredux/test';
 
@@ -55,7 +59,7 @@ class  App extends Component {
         token: _token
       });
     }
-  
+    
   }
   checkForPlayer() {
     const { token } = this.state;
@@ -201,7 +205,7 @@ class  App extends Component {
           )}
           {this.state.token && (
             <React.Fragment>
-              <Test/>
+              
               <HeaderBuscador/>
               <div className="container">
                 <PortadaCurrent artistName={this.state.artistName} albumName={this.state.albumName} albumImg={this.state.albumImg} trackName={this.state.trackName} />
@@ -211,6 +215,10 @@ class  App extends Component {
                   <BtnPlay onClick={(e) => this.onPlayClick(e)}>{playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>} </BtnPlay>
                   <BtnAdelante onClick={(e) => this.onNextClick(e)}/>
                 </Controls>
+                <hr/>
+                <Test/>
+                <Listas/>
+
               </div>
               
 

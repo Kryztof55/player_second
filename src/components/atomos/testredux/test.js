@@ -4,11 +4,11 @@ import {useSelector} from 'react-redux';
 const Test = (props) =>{
 
   const [value, setValue] = useState("string test");
-  const cita = useSelector((state) => state.citas.citas[0] )  
-  console.log(cita)
+  const lista = useSelector((state) => state.listas.items[0] )  
+  console.log(lista)
   return (
     <div>
-      <div>The Value is: {cita}</div>
+      <div>The Value is: {lista}</div>
     </div>);
 }
 export default Test

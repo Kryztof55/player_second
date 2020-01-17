@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import Img from '../../atomos/img/img'
 import Text from '../../atomos/text/text'
 

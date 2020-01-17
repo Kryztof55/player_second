@@ -8,6 +8,14 @@
         font-weight: lighter;
         
     }
+    &.display-lista{
+        font-size: 25px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-weight: bold;
+    }
     &.display-cancion{
         font-size: 15px;
         width: 100%;

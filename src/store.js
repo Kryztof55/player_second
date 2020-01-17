@@ -1,13 +1,18 @@
-import {createStore} from 'redux';
-import reducer from './reducers'
+import {createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
+import reducer from './reducers';
 
 // Definir state Inicial
 
 //const initialState = [];
 
-export const store = createStore (
+const store = createStore (
     reducer, 
     //initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
+    compose (applyMiddleware(thunk), 
+        typeof window === 'object' &&
+            typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ?
+                window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+    )
 );
 export default store;

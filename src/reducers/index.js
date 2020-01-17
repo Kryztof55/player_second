@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import citasReducer from './citasreducers'
+import listaReducer from './playListReducers'
 export default combineReducers({
-    citas: citasReducer
+    listas: listaReducer
 })
