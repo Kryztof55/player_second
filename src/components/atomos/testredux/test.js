@@ -1,14 +1,28 @@
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { connect } from "react-redux";
+import {fetchList} from '../../../actions/actions';
+
 
 const Test = (props) =>{
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchList())
+  },[]);
+  
+  const listas = useSelector(state => state.listas.items)
+  
 
-  const [value, setValue] = useState("string test");
-  const lista = useSelector((state) => state.listas.items[0] )  
-  console.log(lista)
   return (
-    <div>
-      <div>The Value is: {lista}</div>
-    </div>);
+    <ul>
+        {listas.map (item => (
+            <li>lista {item.name}</li>
+        ))}
+    </ul>
+    );
 }
-export default Test
+const mapStateToProps = state => ({
+  items: state.items
+
+});
+export default connect(mapStateToProps)(Test);

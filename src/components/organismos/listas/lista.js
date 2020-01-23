@@ -5,7 +5,7 @@ import style from './style.scss';
 import {useDispatch, useSelector } from 'react-redux';
 //funciones actions redux
 
-import {requestPlaylist} from '../../../actions/playListRequest'
+import {getPlaylist} from '../../../actions/actions'
 
 const Listas = props => {
     const [nombreLista, lista] = useState("");
@@ -14,13 +14,12 @@ const Listas = props => {
     const [duracionLista, duracion] = useState("");
 ;
 
-    const dispatch = useDispatch()
+    /* const dispatch = useDispatch()
     useEffect(() => {
-        
         console.log("desde lista")
-        const getPlaylist = () => dispatch(requestPlaylist() )
-        getPlaylist()
-      });
+        const Playlist = () => dispatch(getPlaylist() )
+        Playlist()
+      }); */
     return(
         <article className="listas">
             <Text className="text display-artist" theme="white" contenido="Lista"/>
