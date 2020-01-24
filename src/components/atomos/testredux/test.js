@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { connect } from "react-redux";
 import {fetchList} from '../../../actions/actions';
 
 
@@ -21,8 +20,5 @@ const Test = (props) =>{
     </ul>
     );
 }
-const mapStateToProps = state => ({
-  items: state.items
 
-});
-export default connect(mapStateToProps)(Test);
+export default Test

@@ -13,7 +13,7 @@ export function fetchList(){
         fetch("https://api.spotify.com/v1/me/playlists", {
             method: "GET",
             headers: {
-                authorization: `Bearer BQB15OaHDQy-QagXPQlEo8w9bw-IBcJG7KGUccg3_lo0SLx98G5quuku0-ZLvDCde_iZ_9FfMK86bOjEfBYhhC67wBWphjrXCvEkOHTRmep8qjoL3MxGdpK47qtc9Z9TlR4u0t2jb2FQcFrN2hHE-5gGMLUEj1zQqhLFUERwqKM6IoJYpzPFpH50UiVqoPzQXsDdBFrO26Uu7qgG_zqZRqDXO3BSNi19mMg-7uw57S05_wtCyOlvZTe83vjlJjDkxhXi5z4BPGqqug`,
+                authorization: `Bearer BQB5dCIdq72hSsZIzNwHPfkfx0JkgF23eKj6y2lipOhFGcRLR7IzwRaIzfbxFllwhSX4XkdwnPBygCnNoXWHhoPVOu9uqCyCjw2d54VhLNEngc6mpmrZ8zVzi8R_uotwlKT_BlHCHAQQqqLge_SrnuOzDhldSk9toc9rWQufQHyD0NjDL-sSjsD8glsbhxm8IEIcjKr-tXx0ppH15d4OGW29l2IR-ZH_VxmzV5AmlMcmuJ3psHtE0UPZJ-1MgZpiolMljFwbXEZZJA`,
             }
         })
         .then((response) => {

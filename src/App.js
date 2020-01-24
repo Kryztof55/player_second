@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import store from './store';
 import {Provider} from 'react-redux';
 
-
 import { authEndpoint, clientId, redirectUri, scopes } from "./config";
 import hash from "./hash.js";
 import logo from './logo.svg';
@@ -18,10 +17,6 @@ import BtnPlay from './components/atomos/btnPlay/btnPlay';
 import BtnRandom from './components/atomos/btnRandom/btnRandom'
 import Listas from './components/organismos/listas/lista'
 
-
-
-import Test from './components/atomos/testredux/test';
-
 import './App.css';
 import './scss/configurations.scss';
 
@@ -29,6 +24,7 @@ class  App extends Component {
 
   constructor(props){
     super(props);
+   
     this.state = {
       token: null,
       deviceId: "",
@@ -45,8 +41,9 @@ class  App extends Component {
     }
     this.playerCheckInterval = null;
   }
-
+  
   componentDidMount() {
+    
     // Set token
     let _token = hash.access_token;
 
@@ -216,9 +213,7 @@ class  App extends Component {
                   <BtnAdelante onClick={(e) => this.onNextClick(e)}/>
                 </Controls>
                 <hr/>
-                <Test/>
                 <Listas/>
-
               </div>
               
 
