@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import style from './style.scss';
 
-class Titulo extends Component {
-    render(){
+const Titulo = props =>  {
+    
         return (
-            <h1 className={this.props.className} color-theme={this.props.theme}>{this.props.contenido}</h1>
+            <h1 className={props.className} color-theme={props.theme}>{props.contenido}</h1>
         );
-    }
+    
 }
 export default Titulo

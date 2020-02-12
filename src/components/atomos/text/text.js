@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import style from './style.scss';
 
-class Text extends Component {
-    render(){
-        return (
-            <p className={this.props.className} color-theme={this.props.theme}>{this.props.contenido}</p>
-        );
-    }
+const Text = props => {
+    return (
+        <p className={props.className} color-theme={props.theme}>{props.contenido}</p>
+    );
+    
 }
 export default Text

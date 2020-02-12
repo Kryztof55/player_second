@@ -15,7 +15,7 @@ import BtnAdelante from './components/atomos/btnAdelante/btnAdelante';
 import BtnAtras from './components/atomos/btnAtras/btnAtras';
 import BtnPlay from './components/atomos/btnPlay/btnPlay';
 import BtnRandom from './components/atomos/btnRandom/btnRandom'
-import Listas from './components/organismos/listas/lista'
+import Main from './components/organismos/mainContent/main'
 
 import './App.css';
 import './scss/configurations.scss';
@@ -41,7 +41,6 @@ class  App extends Component {
     }
     this.playerCheckInterval = null;
   }
-  
   componentDidMount() {
     
     // Set token
@@ -212,9 +211,9 @@ class  App extends Component {
                   <BtnPlay onClick={(e) => this.onPlayClick(e)}>{playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>} </BtnPlay>
                   <BtnAdelante onClick={(e) => this.onNextClick(e)}/>
                 </Controls>
-                <hr/>
-                <Listas/>
               </div>
+              <hr/>
+              <Main/>
               
 
           </React.Fragment>
