@@ -1,26 +1,23 @@
 @import '../../../scss/variables.scss';
-/* body{
-    position: relative;
-    &.modal-open{
-            .background{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background-color: rgba(0, 0, 0, .5);
-        }
-    }
-}
-.modal{
-    display: none;
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, .5);
+    transition: opacity 0.2s ease;
+    overflow: scroll;
+  }
+  
+  .modal {
     position: absolute;
     width: 230px;
     background-color: black;
     border-radius: 5px;
     box-shadow: -3px 10px 4px -7px rgba(0,0,0,0.75);
     left: 50%;
-    top: 50%;
+    top: 20px;
     transform: translateX(-50%);
     padding: 20px;
     z-index: 10;
@@ -39,63 +36,18 @@
             color: white;
         }
     }
-    &.show{
-        display: block;
+    &.show {
+      display: block;
     }
-}
-@media (min-width: 414px){
-    .modal{
-        width: 320px;
+    
+    &.hide {
+      display: none;
     }
-} */
-
-.App {
-    margin: 1rem auto;
-    max-width: 1000px;
-    padding: 1rem;
+    li{
+      text-align: left;
+      button{
+        color: white;
+      }
+    }
   }
   
-  .show {
-    display: block;
-  }
-  
-  .hide {
-    display: none;
-  }
-  
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0000003a;
-    transition: opacity 0.2s ease;
-  }
-  
-  .modal {
-    width: 500px;
-    position: relative;
-    margin: 0px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 2px;
-    transform: translateY(100%);
-    transition: transform 0.2s ease;
-    box-shadow: 0 2px 8px 3px;
-    font-family: Helvetica, Arial, sans-serif;
-  }
-  
-  .modal button {
-    position: absolute;
-    right: -1rem;
-    top: -1rem;
-    width: 2rem;
-    height: 2rem;
-    padding: 0.5rem;
-    margin: 0 auto;
-    border-radius: 50%;
-    box-shadow: 1px 1px 1px #0000003a;
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.562);
-  }
