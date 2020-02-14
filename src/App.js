@@ -128,7 +128,6 @@ class  App extends Component {
   }
   
   onNextClick() {
-    console.log("next")
     this.player.nextTrack();
   }
   onRandom(){
@@ -164,7 +163,7 @@ class  App extends Component {
       },
       body: JSON.stringify({
         "device_ids": [ deviceId ],
-        "play": false, // true para reporducir aquí
+        "play": true, // true para reporducir aquí
       }),
     });
   }

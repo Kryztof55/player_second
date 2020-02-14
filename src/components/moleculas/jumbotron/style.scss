@@ -4,7 +4,13 @@
     background-color: $color-night;
     &[color-theme=white]{
         background-color: rgba(white, .1);
-    }   
+    }
+    &.clearer{
+        background-color: rgba(white, .05);
+    }
+    &.hidden{
+        display: none;
+    } 
 }
 
 @media #{$n-tablet}{

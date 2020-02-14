@@ -27,7 +27,7 @@ const Main = props => {
         fetch(`https://api.spotify.com/v1/playlists/${listas}/tracks`, {
         method: "GET",
         headers: {
-            authorization: `Bearer BQBcpnn9NafwXOMHIbCdR8Xrr05s4Z_ih8VfBmYHnJKfbD0l0e4l2br4yeTy-fV_nDFu_A7VdJg5fN5TrfDZVQvFWntj7zwvJ3rruFv33uADsGstCDfz4_c8KqP5RTZmoRI9127MdHSgi9wdexcnnEzQ0Strxzazs7imuoXub9fuJBqvP6Tw6eThEuAYcRORMSfsjRi--s0sOwSuAim4de0w8pio3J-2NAPG7FB05xKjEeq1Hqv_pN4m2mG6usEC3fwXm4eSCwQ8Xg`,
+            authorization: `Bearer BQAvdTP5o5RbfHYzQV3UMBJRB3eOXIhnIAh21yY3rguKCegqNsoc4ZtAMSuvC9k_dxsTYtK7UihPTpaCal6gyOsAPyzuoHzWA22YAI-9K-V1uT6Gn80D9Ap0XitzXY4Mo7PF4pz0MP6nYWxNUyltoM98RVNhk2XdRMKcgFHepM8tWZCtmVTBvaXxFL18M1KaVM02u6P2CGc_-0z5zwnv0_rMdQihqMPHPegQ0J6HU4PN02au8jFEGVu_QyT0WO5IXyFeCztfeG1elQ`,
         }
         })
         .then((response) => {
@@ -47,19 +47,29 @@ const Main = props => {
 
         
     }
-    const playSong = () => {
+    const rolas = []
+    for(var i = 0; i < tracks.length; i++){
+        rolas.push(tracks[i].track.uri)
+    }
+    
+    const playSong = (cancion) => {
         fetch(`https://api.spotify.com/v1/me/player/play`, {
         method: "PUT",
         headers: {
-            authorization: `Bearer BQBcpnn9NafwXOMHIbCdR8Xrr05s4Z_ih8VfBmYHnJKfbD0l0e4l2br4yeTy-fV_nDFu_A7VdJg5fN5TrfDZVQvFWntj7zwvJ3rruFv33uADsGstCDfz4_c8KqP5RTZmoRI9127MdHSgi9wdexcnnEzQ0Strxzazs7imuoXub9fuJBqvP6Tw6eThEuAYcRORMSfsjRi--s0sOwSuAim4de0w8pio3J-2NAPG7FB05xKjEeq1Hqv_pN4m2mG6usEC3fwXm4eSCwQ8Xg`,
-        }
+            authorization: `Bearer BQAvdTP5o5RbfHYzQV3UMBJRB3eOXIhnIAh21yY3rguKCegqNsoc4ZtAMSuvC9k_dxsTYtK7UihPTpaCal6gyOsAPyzuoHzWA22YAI-9K-V1uT6Gn80D9Ap0XitzXY4Mo7PF4pz0MP6nYWxNUyltoM98RVNhk2XdRMKcgFHepM8tWZCtmVTBvaXxFL18M1KaVM02u6P2CGc_-0z5zwnv0_rMdQihqMPHPegQ0J6HU4PN02au8jFEGVu_QyT0WO5IXyFeCztfeG1elQ`,
+        },
+        body: JSON.stringify({
+            "uris": rolas,
+            "position_ms": 0
+          })
+        
         })
     }
     
     const closeModal = () => setShow(false);
     const listas = useSelector(state => state.listas.items)
     const canciones = tracks
-    console.log(canciones)
+    //console.log(canciones)
     /* for(var i = 0 ; i < canciones.length; i++){
         console.log(canciones[i])
 
@@ -78,6 +88,7 @@ const Main = props => {
                                 <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
                             </button>
 
+
                         ))}
 
                 </Slide>
@@ -86,9 +97,10 @@ const Main = props => {
             <Modal closeModal={closeModal} show={show}>
                {canciones.map (rola => (
                    <li key={rola.track.id}>
-                        <button onClick={() => playSong(rola.track.id.uri)}>
+                        <button onClick={() => playSong(rola)}>
                             {rola.track.name}
                         </button>
+                        
                    </li>
                 ))} 
             </Modal>
