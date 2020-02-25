@@ -45,7 +45,6 @@ const HeaderBuscador= props => {
                                 <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
                             </button>
 
-
                         ))}
 
                 </Slide>

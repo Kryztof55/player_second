@@ -7,29 +7,32 @@ import App from '../App'
 /* Fetch play list */
 
 export function fetchList(){
-    
+
     return dispatch => {
         
         dispatch(fetchPlaylistBegin());
-        fetch("https://api.spotify.com/v1/me/playlists", {
-            method: "GET",
-            headers: {
-                authorization: `Bearer BQAvdTP5o5RbfHYzQV3UMBJRB3eOXIhnIAh21yY3rguKCegqNsoc4ZtAMSuvC9k_dxsTYtK7UihPTpaCal6gyOsAPyzuoHzWA22YAI-9K-V1uT6Gn80D9Ap0XitzXY4Mo7PF4pz0MP6nYWxNUyltoM98RVNhk2XdRMKcgFHepM8tWZCtmVTBvaXxFL18M1KaVM02u6P2CGc_-0z5zwnv0_rMdQihqMPHPegQ0J6HU4PN02au8jFEGVu_QyT0WO5IXyFeCztfeG1elQ`,
+        async function requestPlaylist(re, res) {
+            const request = await fetch("https://api.spotify.com/v1/me/playlists", {
+                method: "GET",
+                headers: {
+                    authorization: `Bearer BQCiCdO_p74bkw2CzOiLBiB7T4A5HtjwZDFFrAIHwBYA6o9dQdn0Y-IxvDajlSojAN7PXkmf5MDT3CGJADUw410cVLlHZrzweTfZR-0lCNnHRnNSJ7AEAjZRegrDv6taZkOYXFLXvp6HfCVS9zXdnTLc-LgVkDNSZy-nBJtAgXdRSgJhXF0gHAjl36n1wC6LOGlB3fr5ieZ_zUq4dmJqnaAsAylD4MPy5xQauo5oGz49G6KUZIDPpsZm05_dUwyCM-SqJbmXw_1oBg`,
+                    
+                }
+            })
+            try {
+                console.log("Leyendo..")
+                const res = await request.json();
+                dispatch(fetchPlaylistSuccess(res.items))
+
                 
             }
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((res) => {
-            dispatch(fetchPlaylistSuccess(res.items))
-            
-            return (res);
-        })
-        .catch((error) =>{
-            console.log(error)
-            dispatch(fetchPlaylistFailure())
-        })
+        
+            catch(errores){
+                dispatch(fetchPlaylistFailure())
+            }
+        }
+        requestPlaylist()
+
     }
 }
 

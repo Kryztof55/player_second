@@ -24,27 +24,23 @@ const Main = props => {
     const openModal = (listas) => {
         setShow(true);
         //console.log(listas[0].id)
-        fetch(`https://api.spotify.com/v1/playlists/${listas}/tracks`, {
-        method: "GET",
-        headers: {
-            authorization: `Bearer BQAvdTP5o5RbfHYzQV3UMBJRB3eOXIhnIAh21yY3rguKCegqNsoc4ZtAMSuvC9k_dxsTYtK7UihPTpaCal6gyOsAPyzuoHzWA22YAI-9K-V1uT6Gn80D9Ap0XitzXY4Mo7PF4pz0MP6nYWxNUyltoM98RVNhk2XdRMKcgFHepM8tWZCtmVTBvaXxFL18M1KaVM02u6P2CGc_-0z5zwnv0_rMdQihqMPHPegQ0J6HU4PN02au8jFEGVu_QyT0WO5IXyFeCztfeG1elQ`,
+        async function requesrTracks(){
+            const requestTracks = await fetch(`https://api.spotify.com/v1/playlists/${listas}/tracks`, {
+                 method: "GET",
+                 headers: {
+                     authorization: `Bearer BQCiCdO_p74bkw2CzOiLBiB7T4A5HtjwZDFFrAIHwBYA6o9dQdn0Y-IxvDajlSojAN7PXkmf5MDT3CGJADUw410cVLlHZrzweTfZR-0lCNnHRnNSJ7AEAjZRegrDv6taZkOYXFLXvp6HfCVS9zXdnTLc-LgVkDNSZy-nBJtAgXdRSgJhXF0gHAjl36n1wC6LOGlB3fr5ieZ_zUq4dmJqnaAsAylD4MPy5xQauo5oGz49G6KUZIDPpsZm05_dUwyCM-SqJbmXw_1oBg`,
+                 }
+                 })
+             
+            try{
+                const tracks = await requestTracks.json()
+                setTracks(tracks.items)
+            }
+            catch(errores){
+
+            }
         }
-        })
-        .then((response) => {
-            return response.json();
-        })
-        
-        .then((tracks) => {
-            //console.log(tracks.items)
-
-            return (setTracks(tracks.items));
-            
-        })
-        .catch((error) =>{
-            console.log(error)
-        })
-        
-
+        requesrTracks()
         
     }
     const rolas = []
@@ -52,31 +48,35 @@ const Main = props => {
         rolas.push(tracks[i].track.uri)
     }
     
-    const playSong = (cancion) => {
-        fetch(`https://api.spotify.com/v1/me/player/play`, {
-        method: "PUT",
-        headers: {
-            authorization: `Bearer BQAvdTP5o5RbfHYzQV3UMBJRB3eOXIhnIAh21yY3rguKCegqNsoc4ZtAMSuvC9k_dxsTYtK7UihPTpaCal6gyOsAPyzuoHzWA22YAI-9K-V1uT6Gn80D9Ap0XitzXY4Mo7PF4pz0MP6nYWxNUyltoM98RVNhk2XdRMKcgFHepM8tWZCtmVTBvaXxFL18M1KaVM02u6P2CGc_-0z5zwnv0_rMdQihqMPHPegQ0J6HU4PN02au8jFEGVu_QyT0WO5IXyFeCztfeG1elQ`,
-        },
-        body: JSON.stringify({
-            "uris": rolas,
-            "position_ms": 0
-          })
+    const playSong = (canciones) => {
+        async function requestCanciones(req, res) {
+            try{
+                fetch(`https://api.spotify.com/v1/me/player/play`, {
+                method: "PUT",
+                headers: {
+                    authorization: `Bearer BQCiCdO_p74bkw2CzOiLBiB7T4A5HtjwZDFFrAIHwBYA6o9dQdn0Y-IxvDajlSojAN7PXkmf5MDT3CGJADUw410cVLlHZrzweTfZR-0lCNnHRnNSJ7AEAjZRegrDv6taZkOYXFLXvp6HfCVS9zXdnTLc-LgVkDNSZy-nBJtAgXdRSgJhXF0gHAjl36n1wC6LOGlB3fr5ieZ_zUq4dmJqnaAsAylD4MPy5xQauo5oGz49G6KUZIDPpsZm05_dUwyCM-SqJbmXw_1oBg`,
+                },
+                body: JSON.stringify({
+                    "uris": rolas,
+                    "offset": {
+                        "uri": canciones,
+                    },
+                    "position_ms": 0
+                })
+                
+                })
+            }
+            catch(errores){
+
+            }
+        }
+        requestCanciones()
         
-        })
     }
     
     const closeModal = () => setShow(false);
     const listas = useSelector(state => state.listas.items)
     const canciones = tracks
-    //console.log(canciones)
-    /* for(var i = 0 ; i < canciones.length; i++){
-        console.log(canciones[i])
-
-    } */
-    /* canciones.map(rola => (
-        console.log(rola.track.name)
-    )) */
     return(
         <React.Fragment>
             
@@ -97,10 +97,9 @@ const Main = props => {
             <Modal closeModal={closeModal} show={show}>
                {canciones.map (rola => (
                    <li key={rola.track.id}>
-                        <button onClick={() => playSong(rola)}>
+                        <button onClick={() => playSong(rola.track.uri)}>
                             {rola.track.name}
                         </button>
-                        
                    </li>
                 ))} 
             </Modal>
