@@ -30,24 +30,16 @@ const HeaderBuscador= props => {
         setShowSearch(false)
     }
 
-    
-    const listas = useSelector(state => state.listas.items)
     return (
         <div className="headBuscador">
             <Jumbotron className="jumbotron">
-                <Buscador color="white" onFocus={buscar}/>
+                <Buscador color="white" onFocus={buscar} placeholder="Buscar música..."/>
             </Jumbotron>
             <Jumbotron className={ showSearch ? "jumbotron clearer" : "jumbotron hidden"}>
                 Aqui van las cards de los resultados de la busquedas
-                <Slide>               
-                        {listas.map (item => (
-                            <button key={item.id} onClick={closeSearch}>
-                                <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
-                            </button>
-
-                        ))}
-
-                </Slide>
+                <button onClick={closeSearch}>
+                    Cerrar por ahora
+                </button>
             </Jumbotron>
         </div>
     );

@@ -2,6 +2,13 @@ import React, { useState, useEffect  } from 'react';
 import Img from '../../atomos/img/img'
 import Text from '../../atomos/text/text'
 import style from './style.scss';
+import Jumbotron from '../../moleculas/jumbotron/jumbotron';
+import Buscador from '../../atomos/buscador/buscador';
+
+/* Token */
+
+//import { authEndpoint, clientId, redirectUri, scopes } from "../config";
+import hash from "../../../hash";
 
 import Listas from '../listas/lista';
 import Slide from '../../atomos/slide/slide';
@@ -11,6 +18,7 @@ import {useDispatch, useSelector } from 'react-redux';
 //funciones actions redux
 
 import {fetchList} from '../../../actions/actions';
+import {fetchPlaylistSuccess} from '../../../actions/actions';
 const Main = props => {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -19,8 +27,11 @@ const Main = props => {
       
     },[]);
 
+    let token = hash.access_token;
+
     const [show, setShow] = useState(false);
     const [tracks, setTracks] = useState([])
+    const [inputList, setInputList] = useState("")
     const openModal = (listas) => {
         setShow(true);
         //console.log(listas[0].id)
@@ -28,7 +39,7 @@ const Main = props => {
             const requestTracks = await fetch(`https://api.spotify.com/v1/playlists/${listas}/tracks`, {
                  method: "GET",
                  headers: {
-                     authorization: `Bearer BQCiCdO_p74bkw2CzOiLBiB7T4A5HtjwZDFFrAIHwBYA6o9dQdn0Y-IxvDajlSojAN7PXkmf5MDT3CGJADUw410cVLlHZrzweTfZR-0lCNnHRnNSJ7AEAjZRegrDv6taZkOYXFLXvp6HfCVS9zXdnTLc-LgVkDNSZy-nBJtAgXdRSgJhXF0gHAjl36n1wC6LOGlB3fr5ieZ_zUq4dmJqnaAsAylD4MPy5xQauo5oGz49G6KUZIDPpsZm05_dUwyCM-SqJbmXw_1oBg`,
+                     authorization: `Bearer ${token}`,
                  }
                  })
              
@@ -47,14 +58,13 @@ const Main = props => {
     for(var i = 0; i < tracks.length; i++){
         rolas.push(tracks[i].track.uri)
     }
-    
     const playSong = (canciones) => {
         async function requestCanciones(req, res) {
             try{
                 fetch(`https://api.spotify.com/v1/me/player/play`, {
                 method: "PUT",
                 headers: {
-                    authorization: `Bearer BQCiCdO_p74bkw2CzOiLBiB7T4A5HtjwZDFFrAIHwBYA6o9dQdn0Y-IxvDajlSojAN7PXkmf5MDT3CGJADUw410cVLlHZrzweTfZR-0lCNnHRnNSJ7AEAjZRegrDv6taZkOYXFLXvp6HfCVS9zXdnTLc-LgVkDNSZy-nBJtAgXdRSgJhXF0gHAjl36n1wC6LOGlB3fr5ieZ_zUq4dmJqnaAsAylD4MPy5xQauo5oGz49G6KUZIDPpsZm05_dUwyCM-SqJbmXw_1oBg`,
+                    authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     "uris": rolas,
@@ -66,6 +76,7 @@ const Main = props => {
                 
                 })
             }
+            
             catch(errores){
 
             }
@@ -75,11 +86,33 @@ const Main = props => {
     }
     
     const closeModal = () => setShow(false);
-    const listas = useSelector(state => state.listas.items)
+    let listas = useSelector(state => state.listas.items)
     const canciones = tracks
+
+
+    const  filtrarListas = (evt) =>{
+        //console.log(listas)
+        setInputList(evt.target.value) 
+        //console.log(inputList)
+        var ListasNew = []
+        listas.map((item, index) => {
+            if(item.name.includes(inputList)){
+                ListasNew.push(item)
+                dispatch(fetchPlaylistSuccess(ListasNew))
+            }
+            else{
+                
+            }
+        })
+
+        
+    }   
     return(
         <React.Fragment>
-            
+            <Jumbotron className="jumbotron">
+                <Buscador color="white" value={inputList} placeholder="Buscar lista..." onChange={filtrarListas}/>
+            </Jumbotron>
+
             <section className="gridPortadas container">
                 <Titulo className="titulo" theme="white" contenido="Listas de reporducción"/>
                 <Slide>               
@@ -87,10 +120,7 @@ const Main = props => {
                             <button key={item.id} onClick={() => openModal(item.id)}>
                                 <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
                             </button>
-
-
                         ))}
-
                 </Slide>
             </section>
 
