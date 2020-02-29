@@ -21,7 +21,7 @@ let token = hash.access_token;
         
         dispatch(fetchPlaylistBegin());
         async function requestPlaylist(re, res) {
-            const request = await fetch("https://api.spotify.com/v1/me/playlists", {
+            const request = await fetch("https://api.spotify.com/v1/me/playlists?limit=50", {
                 method: "GET",
                 headers: {
                     authorization: `Bearer ${token}`,

@@ -23,15 +23,13 @@ const Main = props => {
     const dispatch = useDispatch()
     useEffect(() => {
       dispatch(fetchList())
-      
-      
     },[]);
-
+    
     let token = hash.access_token;
 
     const [show, setShow] = useState(false);
     const [tracks, setTracks] = useState([])
-    const [inputList, setInputList] = useState("")
+    const [inputList, setInputList] = useState()
     const openModal = (listas) => {
         setShow(true);
         //console.log(listas[0].id)
@@ -86,26 +84,23 @@ const Main = props => {
     }
     
     const closeModal = () => setShow(false);
-    let listas = useSelector(state => state.listas.items)
-    const canciones = tracks
 
 
-    const  filtrarListas = (evt) =>{
-        //console.log(listas)
-        setInputList(evt.target.value) 
-        //console.log(inputList)
-        var ListasNew = []
-        listas.map((item, index) => {
-            if(item.name.includes(inputList)){
-                ListasNew.push(item)
-                dispatch(fetchPlaylistSuccess(ListasNew))
-            }
-            else{
-                
-            }
-        })
 
-        
+    let listas = useSelector(state => state.listas.items) // state desde Redux
+    const canciones = tracks /// no cuenta ahora
+    let filterList = listas // para mantener la lista original y para pintar todas las lista de inicio
+
+
+ 
+    const [listaFiltrada, setListaFiltrada] = useState()
+    const [filtrando, setFiltrando] = useState(false)
+    const  filtrarListas = (evt) =>{ // Funcion que filtra el array
+        setInputList(evt.target.value)
+        filterList = listas.filter(listas => listas.name.includes(inputList))
+        console.log(inputList) // si me devuelve en consola todo los elementos filtrados o sea que sí sirve
+        setListaFiltrada(filterList)
+        setFiltrando(true)
     }   
     return(
         <React.Fragment>
@@ -115,14 +110,25 @@ const Main = props => {
 
             <section className="gridPortadas container">
                 <Titulo className="titulo" theme="white" contenido="Listas de reporducción"/>
-                <Slide>               
-                        {listas.map (item => (
-                            <button key={item.id} onClick={() => openModal(item.id)}>
-                                <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
-                            </button>
-                        ))}
+                <Slide>
+                                      
+                        {
+                           !filtrando?
+                                listas.map (item => ( //recorrer array para pintar
+                                    <button key={item.id} onClick={() => openModal(item.id)}>
+                                        <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
+                                    </button>
+                                ))
+                            :
+                                listaFiltrada.map (item => ( //recorrer array setear para pintar
+                                    <button key={item.id} onClick={() => openModal(item.id)}>
+                                        <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
+                                    </button>
+                                ))
+                        }
                 </Slide>
             </section>
+            
 
             <Modal closeModal={closeModal} show={show}>
                {canciones.map (rola => (
