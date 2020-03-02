@@ -29,7 +29,7 @@ const Main = props => {
 
     const [show, setShow] = useState(false);
     const [tracks, setTracks] = useState([])
-    const [inputList, setInputList] = useState()
+    
     const openModal = (listas) => {
         setShow(true);
         //console.log(listas[0].id)
@@ -92,20 +92,38 @@ const Main = props => {
     let filterList = listas // para mantener la lista original y para pintar todas las lista de inicio
 
 
- 
-    const [listaFiltrada, setListaFiltrada] = useState()
+    const [inputList, setInputList] = useState("")
+    const [listaFiltrada, setListaFiltrada] = useState(undefined)
     const [filtrando, setFiltrando] = useState(false)
-    const  filtrarListas = (evt) =>{ // Funcion que filtra el array
-        setInputList(evt.target.value)
-        filterList = listas.filter(listas => listas.name.includes(inputList))
-        console.log(inputList) // si me devuelve en consola todo los elementos filtrados o sea que sí sirve
-        setListaFiltrada(filterList)
-        setFiltrando(true)
+
+
+
+    const  filtrarListas = (eve) =>{
+        let val = eve.target.value.toLowerCase()
+        if(val != ""){
+            setInputList(val)
+            filterList = listas.filter(listas => listas.name.toLowerCase().includes(val))
+            setListaFiltrada(filterList)
+            setFiltrando(true)
+            console.log(listaFiltrada)
+        }
+        else{
+            setFiltrando(false)
+            setInputList("")
+        }
+
+        
     }   
+    const setAllList = (eve) =>{
+        let val = eve.target.value
+        if(val==""){
+            setFiltrando(false)
+        }
+    }
     return(
         <React.Fragment>
             <Jumbotron className="jumbotron">
-                <Buscador color="white" value={inputList} placeholder="Buscar lista..." onChange={filtrarListas}/>
+                <Buscador color="white" value={inputList} placeholder="Buscar lista..." onBlur={setAllList} onChange={filtrarListas}/>                
             </Jumbotron>
 
             <section className="gridPortadas container">
@@ -114,13 +132,13 @@ const Main = props => {
                                       
                         {
                            !filtrando?
-                                listas.map (item => ( //recorrer array para pintar
+                                listas.map (item => (
                                     <button key={item.id} onClick={() => openModal(item.id)}>
                                         <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
                                     </button>
                                 ))
                             :
-                                listaFiltrada.map (item => ( //recorrer array setear para pintar
+                                listaFiltrada.map (item => ( 
                                     <button key={item.id} onClick={() => openModal(item.id)}>
                                         <Listas  contenidoName={item.name} ImagenUrl={item.images[0].url} ImagenAlt={item.description} contenidoTracks={item.tracks.total} contenidoOwner={item.owner.display_name} />
                                     </button>
