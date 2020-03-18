@@ -5,13 +5,13 @@ import style from './style.scss';
 
 
 const ArtistaResult= props => {
-    const {imgArtist, textArtista} = props;
+    const {imgArtist, textArtista, onClick} = props;
     return(
         <React.Fragment>
-            <div className="artistResult">
+            <button className="artistResult" onClick={onClick}> 
                 <img className="artistImg" src={imgArtist} alt="img"/>
                 <p className="text display-artist" color-theme="white">{textArtista}</p>
-            </div>
+            </button>
         </React.Fragment>
     )
 } 

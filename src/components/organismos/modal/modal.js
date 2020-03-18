@@ -2,12 +2,12 @@ import React, { useState, useEffect  } from 'react';
 import style from './style.scss';
 
 const Modal = props => {
-    const { show, closeModal } = props;
+    const { show, closeModal, header } = props;
     return(
         <div className={show ? "overlay" : "hide"}>
             <div className={show ? "show modal" : "hide modal"}>
                 <header className="header-modal">
-                    <h5 className="modal-title">Contenido lista</h5>
+                    <h5 className="modal-title">{header}</h5>
                     <button onClick={closeModal}>
                         <i className="material-icons">highlight_off</i>
                     </button>       

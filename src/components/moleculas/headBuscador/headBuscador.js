@@ -5,8 +5,8 @@ import ArtistaResult from '../artistResult/ArtistaResult'
 import style from './style.scss';
 import hash from "../../../hash";
 
-
-const HeaderBuscador= props => {
+import Modal from '../../organismos/modal/modal'
+const HeaderBuscador= pros => {
     const [showSearch, setShowSearch] = useState(false);
     const [search, setSearch] = useState();
     const [imgArtist, setImgArtist] = useState("direccion de imagen default")
@@ -52,7 +52,48 @@ const HeaderBuscador= props => {
     const closeSearch = () =>{
         setShowSearch(false)
     }
-
+    /* Modal */
+    const [show, setShow] = useState(false);
+    const [track, setTrack] = useState("");
+    const openModal = (track) => {
+        setShow(true);
+        //console.log(track)
+        setTrack(track)
+        
+    }
+    /* Add to queue */   
+    const addToQueue = () =>{
+        fetch(`https://api.spotify.com/v1/me/player/queue?uri=${track.uri}`, {
+        method: "POST",
+        headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        }
+    });
+    console.log(track.uri)
+    }
+    /* play */
+    const rolas = [track.uri]
+    const playSong = () => {
+            fetch(`https://api.spotify.com/v1/me/player/play`, {
+            method: "PUT",
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                "uris": rolas,
+                "position_ms": 0
+                })
+            
+            })
+        }
+        
+        
+        
+    
+    const closeModal = () => setShow(false);
+    
+    
     return (
         <div className="headBuscador">
             <Jumbotron className="jumbotron">
@@ -62,41 +103,27 @@ const HeaderBuscador= props => {
                 {
                 searching?
                     search.artists.items.map(item => (
-                        //<ArtistaResult imgArtist={item.images.url} />
-                        //console.log(item.images[0].url)
                         item.images.length? 
-                            //console.log(item)
-                            <ArtistaResult imgArtist={item.images[0].url} textArtista={item.name}/>
-                            : 
-                            console.log("no resultados en artistas")
+                        <ArtistaResult key={item.id} imgArtist={item.images[0].url} textArtista={item.name}/>
+                        : 
+                        console.log("no resultados en artistas")
                         
                     )) 
-                    
-
-                    
-                
                 :
-                    <ArtistaResult />
+                    <ArtistaResult/>
                 }
+                <hr/>                
                 {
                 searching?
-                //console.log(search.tracks)
                     search.tracks.items.map(item => (
-                        //<ArtistaResult imgArtist={item.images.url} />
-                        //console.log(item.images[0].url)
-                        //console.log(item)
-                        <ArtistaResult imgArtist={item.album.images[0].url} textArtista={item.name}/>
-                        //item.length? 
-                            //console.log(item.items.album.images[0].url)
-                            //<ArtistaResult imgArtist={item.items.album.images[0].url} textArtista={item.items.name}/>
-                            //: 
-                            //console.log("no resultados en tracks")
-                        
+                        <div key={item.id}>
+                            <ArtistaResult  imgArtist={item.album.images[0].url} textArtista={item.name} onClick={()=> openModal(item)}/>
+                            <Modal closeModal={closeModal} show={show}>
+                                <button className="text" color-theme="white" onClick={() => playSong(item)}>Play</button>
+                                <button className="text" color-theme="white" onClick={() => addToQueue(item)}>Agregar a la cola</button>
+                            </Modal>    
+                        </div>
                     )) 
-                    
-
-                    
-                
                 :
                     <ArtistaResult />
                 }
@@ -105,6 +132,7 @@ const HeaderBuscador= props => {
                     Cerrar por ahora
                 </button>
             </Jumbotron>
+            
         </div>
     );
 }

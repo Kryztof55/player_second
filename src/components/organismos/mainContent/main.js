@@ -127,7 +127,7 @@ const Main = props => {
             </Jumbotron>
 
             <section className="gridPortadas container">
-                <Titulo className="titulo" theme="white" contenido="Listas de reporducción"/>
+                <Titulo className="titulo" theme="white" contenido="Listas de reproducción"/>
                 <Slide>
                                       
                         {
@@ -148,7 +148,7 @@ const Main = props => {
             </section>
             
 
-            <Modal closeModal={closeModal} show={show}>
+            <Modal closeModal={closeModal} show={show} header="Contenido lista">
                {canciones.map (rola => (
                    <li key={rola.track.id}>
                         <button onClick={() => playSong(rola.track.uri)}>
